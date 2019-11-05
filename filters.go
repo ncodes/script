@@ -109,18 +109,28 @@ func (p *Pipe) EachLine(process func(string, *strings.Builder)) *Pipe {
 // the command had a non-zero exit status, the pipe's error status will also be
 // set to the string "exit status X", where X is the integer exit status.
 func (p *Pipe) Exec(s string) *Pipe {
+	return p.exec(s, "")
+}
+
+func (p *Pipe) exec(s, dir string) *Pipe {
 	if p == nil || p.Error() != nil {
 		return p
 	}
 	q := NewPipe()
 	args := strings.Fields(s)
 	cmd := exec.Command(args[0], args[1:]...)
+	cmd.Dir = dir
 	cmd.Stdin = p.Reader
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		q.SetError(err)
 	}
 	return q.WithReader(bytes.NewReader(output))
+}
+
+// ExecInDir is like Exec except the working director is set
+func (p *Pipe) `ExecInDir`(s, dir string) *Pipe {
+	return p.exec(s, dir)
 }
 
 // First reads from the pipe, and returns a new pipe containing only the first N
