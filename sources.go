@@ -29,6 +29,11 @@ func Exec(s string) *Pipe {
 	return NewPipe().Exec(s)
 }
 
+// ExecInDir is like Exec but it accepts a working directory
+func ExecInDir(s, dir string) *Pipe {
+	return NewPipe().ExecInDir(s, dir)
+}
+
 // IfExists tests whether the specified file exists, and returns a pipe whose
 // error status reflects the result. If the file doesn't exist, the pipe's error
 // status will be set, and if the file does exist, the pipe will have no error
