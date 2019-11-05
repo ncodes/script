@@ -129,7 +129,7 @@ func (p *Pipe) exec(s, dir string) *Pipe {
 }
 
 // ExecInDir is like Exec except the working director is set
-func (p *Pipe) `ExecInDir`(s, dir string) *Pipe {
+func (p *Pipe) ExecInDir(s, dir string) *Pipe {
 	return p.exec(s, dir)
 }
 
